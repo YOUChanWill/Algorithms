@@ -1,7 +1,12 @@
 package chapter01;
 
-public class MyArrysList {
-    public static void main(String[] args) {
+import java.util.ArrayList;
 
+public class MyArrysList<T> {
+
+
+
+    public static void main(String[] args) {
+        ArrayList<Object> list = new ArrayList<>();
     }
 }
