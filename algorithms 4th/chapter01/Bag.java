@@ -1,4 +1,5 @@
 package chapter01;
 
-public class Bag {
+public class Bag<T> {
+
 }
