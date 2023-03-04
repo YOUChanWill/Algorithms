@@ -35,7 +35,7 @@ public class MyLinkedList<T> {
         if (x == null) throw new NullPointerException("x == null");
         Node<T> p = head;
         if (i >= 0 && i < ListLength()){
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j <= i; j++) {
                 p = p.next;
             }
         }else throw new IndexOutOfBoundsException(i + "");
@@ -101,14 +101,18 @@ public class MyLinkedList<T> {
         return null;
     }
 
-    public Node<T> remove(T key){
+    public T remove(T key){
         Node<T> front = head;
-        for (int j = 0; j < ListLength(); j++) {
-            front = front.next;
-            if (key.equals(front.data)){
-                front = front.next.next;
-                return front;
+        if (key.equals(front.data)){
+            front.next = head;
+        }
+        for (int j = 1; j < ListLength(); j++) {
+            if (key.equals(front.next.data)){
+                T x = front.next.data;
+                front.next = front.next.next;
+                return x;
             }
+            front = front.next;
         }
         return null;
     }
