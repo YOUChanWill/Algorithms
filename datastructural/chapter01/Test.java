@@ -1,5 +1,7 @@
 package chapter01;
 
+import java.awt.print.Book;
+
 public class Test {
     public static void main(String[] args) {
         AddressBook Book1 = new AddressBook("YOU", 123456);
@@ -36,7 +38,17 @@ public class Test {
         linkedList.insert(Book3);
         linkedList.insert(Book4);
         System.out.println(linkedList);
-        System.out.println(linkedList.get(2));
+        System.out.println(linkedList.get(2)); // 获取链表中对应下标的元素
+        linkedList.set(2,insert1); // 替换链表中的元素
+        System.out.println(linkedList);
+
+        linkedList.remove(2); // 删除指定下标的元素
+        System.out.println(linkedList);
+
+        System.out.println(linkedList.remove(Book1)); // 删除链表中的首个与key相等的元素
+        System.out.println(linkedList);
+
+        System.out.println(linkedList.search(Book2)); // 搜索首个与key相等的元素
 
 
     }
