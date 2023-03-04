@@ -40,9 +40,9 @@ public class MyArrysList<T>{
     @Override
     public String toString() {
         String str = this.getClass().getName() + "(";
-        if (this.n > 0) str += this.element[0].toString();
         for (int i = 0; i < this.n; i++) {
-            str += ", " + this.element[i].toString();
+            if (i != 0) str += ", ";
+            str += this.element[i].toString();
         }
         return str + ")";
     }
@@ -62,16 +62,43 @@ public class MyArrysList<T>{
 
         for (int j = this.n - 1; j >= i ;j--) {
             this.element[j + 1] = source[j];
+        }
             this.element[i] = x;
             this.n++;
             return i;
-        }
+
     }
 
     public int insert(T x){
         return insert(n,x);
     }
 
+    public T remove(int i){
+        if (i >= 0 && i < n ){
+            T x = (T) element[i];
+            for (int j = i; j < n - 1; j++) {
+                element[j] = element[j + 1];
+            }
+            element[n - 1] = null;
+            n--;
+            return x;
+        }
+        return null;
+    }
 
+    public void clear(){
+        n = 0; //设置长度为0
+    }
 
+    public int search(T key){
+        for (int i = 0; i < n; i++) {
+            if (key.equals(element[i])) return i;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
 }
