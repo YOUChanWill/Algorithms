@@ -20,7 +20,11 @@ public class Test {
         System.out.println(arrysList.search(Book1)); // 在通讯录中找寻数据
         System.out.println(arrysList.search(insert1)); // 在通讯录中找寻数据
 
+        System.out.println(arrysList.get(3)); // 返回数组中指定下标的元素
+
         System.out.println(arrysList);
+
+
     }
 }
 
