@@ -1,4 +1,4 @@
-package chapter01;
+package linear_list;
 
 public class AddressBook {
     private String name;

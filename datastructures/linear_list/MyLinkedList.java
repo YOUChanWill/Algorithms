@@ -1,6 +1,4 @@
-package chapter01;
-
-import java.util.regex.Pattern;
+package linear_list;
 
 public class MyLinkedList<T> {
     public Node<T> head; // 头指针

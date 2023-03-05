@@ -1,4 +1,4 @@
-package chapter01;
+package linear_list;
 
 public class MyArrysList<T>{
     protected int n; // 顺序表长度

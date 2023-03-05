@@ -1,6 +1,4 @@
-package chapter01;
-
-import java.awt.print.Book;
+package linear_list;
 
 public class Test {
     public static void main(String[] args) {
