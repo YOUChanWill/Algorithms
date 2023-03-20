@@ -61,7 +61,7 @@ class TreeNode { // 二叉树的定义
 
     TreeNode(int val) { this.val = val; }
 
-    TreeNode(int val, TreeNode left, TreeNode right) {
+    TreeNode(TreeNode left ,int val,  TreeNode right) {
         this.val = val;
         this.left = left;
         this.right = right;
