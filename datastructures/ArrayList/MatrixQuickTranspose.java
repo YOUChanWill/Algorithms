@@ -36,7 +36,7 @@ public class MatrixQuickTranspose {
         for(col=2; col<=nu; col++){
             cpot[col] = cpot[col - 1] + num[col - 1];
         }
-        int p,q;//实现转置
+        int p,q;//实现快速转置
         for(p=1; p<=tu; p++){
             col = M1.data[p].col;
             q = cpot[col];
@@ -52,7 +52,7 @@ public class MatrixQuickTranspose {
 
 }
 
-
+// 定义矩阵
 class Mat {
     final int MAXSIZE = 10;
     int mu,nu,tu;
@@ -64,7 +64,7 @@ class Mat {
         for(int i=1; i<=MAXSIZE; i++)
             data[i] = new Triple();
     }
-
+    // 稀疏矩阵的置转
     public void display(){
         int i,j,k,m,n,count = 0;
         for(i=1; i<=mu; i++){
