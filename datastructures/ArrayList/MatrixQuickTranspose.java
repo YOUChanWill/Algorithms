@@ -46,7 +46,6 @@ public class MatrixQuickTranspose {
         }
         System.out.println("转置后的矩阵为：");
         M2.display();
-
     }
 
 }

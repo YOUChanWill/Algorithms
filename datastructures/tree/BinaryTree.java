@@ -1,7 +1,5 @@
 package tree;
 
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 //
@@ -40,18 +38,18 @@ public class BinaryTree {
         if (root == null) {
             return;
         }
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
+        MyQueue myQueue = new MyQueue(50);
+        myQueue.enqueue(root);
 
-        while (!queue.isEmpty()) {
-            Node node = queue.poll();
+        while (!myQueue.isEmpty()) {
+            Node node = myQueue.dequeue();
             System.out.print(node.data + " ");
 
             if (node.left != null) {
-                queue.add(node.left);
+                myQueue.enqueue(node.left);
             }
             if (node.right != null) {
-                queue.add(node.right);
+                myQueue.enqueue(node.right);
             }
         }
     }
@@ -61,12 +59,12 @@ public class BinaryTree {
         if (root == null) {
             return true;
         }
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(root);
+        MyQueue myQueue = new MyQueue(50);
+        myQueue.enqueue(root);
         boolean flag = false; // 用于标记是否遇到空节点
 
-        while (!queue.isEmpty()) {
-            Node node = queue.poll();
+        while (!myQueue.isEmpty()) {
+            Node node = myQueue.dequeue();
             // 如果已经遇到空节点，且当前节点不为空，说明不是完全二叉树
             if (flag && node != null) {
                 return false;
@@ -76,9 +74,8 @@ public class BinaryTree {
                 flag = true; // 标记遇到空节点
                 continue;
             }
-
-            queue.add(node.left);
-            queue.add(node.right);
+            myQueue.enqueue(node.left);
+            myQueue.enqueue(node.right);
         }
 
         return true;

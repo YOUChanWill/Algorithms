@@ -1,7 +1,7 @@
 package tree;
 
 class MyQueue {
-    private Object[] elements;
+    private Node[] elements;
     private int front;  // 队列头部索引
     private int rear;  // 队列尾部索引
     private int size;  // 队列中元素的数量
@@ -9,13 +9,13 @@ class MyQueue {
 
     public MyQueue(int capacity) {
         this.capacity = capacity;
-        elements = new Object[capacity];
+        elements = new Node[capacity];
         front = 0;
         rear = -1;
         size = 0;
     }
 
-    public void enqueue(Object item) {
+    public void enqueue(Node item) {
         if (isFull()) {
             throw new IllegalStateException("Queue is full");
         }
@@ -24,11 +24,11 @@ class MyQueue {
         size++;
     }
 
-    public Object dequeue() {
+    public Node dequeue() {
         if (isEmpty()) {
             throw new IllegalStateException("Queue is empty");
         }
-        Object dequeuedItem = elements[front];
+        Node dequeuedItem = elements[front];
         front = (front + 1) % capacity;
         size--;
         return dequeuedItem;
@@ -50,9 +50,6 @@ public class Queue {
     public static void main(String[] args) {
         MyQueue queue = new MyQueue(5);
 
-        queue.enqueue("A");
-        queue.enqueue("B");
-        queue.enqueue("C");
 
         System.out.println("Queue size: " + queue.size());  // 输出：3
 
