@@ -1,5 +1,6 @@
 package tree;
 
+import static tree.RedBlackTree.Color.BLACK;
 import static tree.RedBlackTree.Color.RED;
 
 public class RedBlackTree {
@@ -36,5 +37,46 @@ public class RedBlackTree {
         }
     }
 
+    // 判断节点颜色
+    boolean isRed(Node node){
+        return node != null && node.color == RED;
+    }
+
+    boolean isBlack(Node node){
+        return node == null || node.color == BLACK;
+    }
+
+    // 右旋、左旋
+    private void rightRotate(Node node){
+        Node parent = node.parent;
+        Node yellow = node.left;
+        Node green = yellow.right;
+        if (green != null) green.parent = node;
+
+        yellow.right = node;
+        yellow.parent = parent;
+        node.left = green;
+        node.parent = yellow;
+        if (parent == null) root = yellow;
+        else if (parent.left == node) {
+            parent.left = yellow;
+        }else parent.right = yellow;
+    }
+
+    private void leftRotate(Node node){
+        Node parent = node.parent;
+        Node yellow = node.right;
+        Node green = yellow.left;
+        if (green != null) green.parent = node;
+
+        yellow.left = node;
+        yellow.parent = parent;
+        node.right = green;
+        node.parent = yellow;
+        if (parent == null) root = yellow;
+        else if (parent.right == node) {
+            parent.right = yellow;
+        }else parent.left = yellow;
+    }
 
 }
