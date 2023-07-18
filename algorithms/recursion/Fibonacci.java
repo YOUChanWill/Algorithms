@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Fibonacci {
 
-    // 递归的改进，使用Memoization方法,使用数组存结果
+    // 递归的改进，使用Memoization方法,使用数组存结果（使用空间换时间）
     public static int fibonacci(int n){
         int[] cache = new int[n + 1];
         Arrays.fill(cache,-1);
