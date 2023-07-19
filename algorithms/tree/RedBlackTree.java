@@ -17,6 +17,11 @@ public class RedBlackTree {
         Node parent; // 父节点
         Color color = RED; //新节点默认为红色
 
+        public Node(int key, Object value) {
+            this.key = key;
+            this.value = value;
+        }
+
         // 判断是否为左孩子
         boolean isLeftChild(){
             return parent != null && parent.left == this;
@@ -77,6 +82,72 @@ public class RedBlackTree {
         else if (parent.right == node) {
             parent.right = yellow;
         }else parent.left = yellow;
+    }
+
+    // 红黑树更新
+    public void put(int key,Object value){
+        Node p = root;
+        Node parent = null;
+        while (p != null){
+            if (key < p.key){
+                p = p.left;
+            } else if (p.key < key) {
+                p = p.right;
+            }else p.value = value;
+            return;
+        }
+        Node inserted = new Node(key,value);
+        if (parent == null){
+            root = inserted;
+        }else if (key < parent.key){
+            parent.left = inserted;
+            inserted.parent = parent;
+        }else {
+            parent.right = inserted;
+            inserted.parent = parent;
+        }
+        fixRedRed(inserted);// 改变插入节点的颜色
+    }
+
+    void fixRedRed(Node x) {
+        // 插入节点是根节点
+        if (x == root){
+            x.color = BLACK;
+            return;
+        }
+        // 父亲节点是黑色，无需调整
+        if (isBlack(x.parent)) return;
+        // 叔叔节点为红色
+        Node parent = x.parent;
+        Node uncle = x.uncle();
+        Node grandparent = parent.parent;
+        if (isRed(uncle)){
+            parent.color = BLACK;
+            uncle.color = BLACK;
+            grandparent.color = RED;
+            fixRedRed(grandparent);
+            return;
+        }
+        // 叔叔节点为黑色
+        if (parent.isLeftChild() && x.isLeftChild()){ // 父亲左孩子，插入左孩子，LL不平衡
+            parent.color = BLACK;
+            grandparent.color = RED;
+            rightRotate(grandparent);
+        } else if (parent.isLeftChild() && !x.isLeftChild()) {// 父亲左孩子，插入右孩子，LR不平衡
+            leftRotate(parent);
+            x.color = BLACK;
+            grandparent.color = RED;
+            rightRotate(grandparent);
+        } else if (!parent.isLeftChild() && !x.isLeftChild()) {// 父亲右孩子，插入右孩子，RR不平衡
+            parent.color = BLACK;
+            grandparent.color = RED;
+            leftRotate(grandparent);
+        }else { // 父亲右孩子，插入左孩子，RL不平衡
+            rightRotate(parent);
+            x.color = BLACK;
+            grandparent.color = RED;
+            leftRotate(grandparent);
+        }
     }
 
 }
