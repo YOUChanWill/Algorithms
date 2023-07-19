@@ -157,9 +157,57 @@ public class RedBlackTree {
         doRemove(deleted);
     }
 
-    // 处理双黑
-    private void fixDoubleBlack(Node node){
-
+    // 处理双黑,少了一个黑色节点
+    private void fixDoubleBlack(Node x){
+        if (x == root){
+            return;
+        }
+        Node parent = x.parent;
+        Node sibling = x.sibling();
+        // 兄弟节点为红色，侄子节点为黑
+        if (isRed(sibling)){
+            if (x.isLeftChild()){
+                leftRotate(parent);
+            }else {
+                rightRotate(parent);
+            }
+            parent.color = RED;
+            sibling.color = BLACK;
+            fixDoubleBlack(x);
+            return;
+        }
+        // 兄弟节点为黑色，连个侄子节点为黑
+        if (sibling != null) {
+            if (isBlack(sibling.left) && isBlack(sibling.right)) {
+                sibling.color = RED;
+                if (isRed(parent)){
+                    parent.color = BLACK;
+                }else {
+                    fixDoubleBlack(parent);
+                }
+            } else {// 兄弟节点为黑色，至少一个侄子节点为黑
+                if (sibling.isLeftChild() && isRed(sibling.left)){ // LL
+                    rightRotate(parent);
+                    sibling.left.color = BLACK;
+                    sibling.color = parent.color;
+                }else if (sibling.isLeftChild() && isRed(sibling.right)){ // LR
+                    sibling.right.color = parent.color;
+                    leftRotate(sibling);
+                    rightRotate(parent);
+                } else if (!sibling.isLeftChild() && isRed(sibling)) {// RL
+                    sibling.left.color = parent.color;
+                    rightRotate(sibling);
+                    leftRotate(parent);
+                }else {// RR
+                    leftRotate(parent);
+                    sibling.right.color = BLACK;
+                    sibling.color = parent.color;
+                }
+                parent.color = BLACK;
+            }
+        }else {
+            fixDoubleBlack(parent);
+        }
     }
 
     private void doRemove(Node deleted) {
@@ -171,7 +219,7 @@ public class RedBlackTree {
                 root = null;
             }else {
                 if (isBlack(deleted)){
-
+                    fixDoubleBlack(deleted);
                 }else {
                     // 匹配红色叶子无需处理
                 }
@@ -200,7 +248,7 @@ public class RedBlackTree {
                 replaced.parent = parent;
                 deleted.left = deleted.right = deleted.parent = null;
                 if (isBlack(deleted) && isBlack(replaced)){
-
+                    fixDoubleBlack(replaced);
                 }else {
                     replaced.color = BLACK;
                 }
@@ -242,7 +290,4 @@ public class RedBlackTree {
         }
         return s;
     }
-
-
-
 }
