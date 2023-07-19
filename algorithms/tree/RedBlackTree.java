@@ -5,7 +5,7 @@ import static tree.RedBlackTree.Color.RED;
 
 public class RedBlackTree {
 
-    enum Color {RED,BLACK;} // 红黑节点
+    enum Color {RED,BLACK} // 红黑节点
 
     private Node root; // 根节点
 
@@ -152,7 +152,39 @@ public class RedBlackTree {
 
     // 红黑树的删除
     public void remove(int key){
+        Node deleted = find(key);
+        if (deleted == null) return;
+        doRemove(deleted);
+    }
 
+    private void doRemove(Node deleted) {
+        Node replaced = findReplaced(deleted);
+        // 没有孩子
+        if (replaced == null){
+            if (deleted == null){
+                root = null;
+            }
+            return;
+        }
+        // 有一个孩子
+        if (deleted.left == null || deleted.right == null){
+            // 删除的是根节点
+            if (deleted == root){
+                root.key = replaced.key;
+                root.value = replaced.value;
+                root.left = root.right = null;
+            }
+            return;
+        }
+        // 有两个孩子
+        int t = deleted.key;
+        deleted.key = replaced.key;
+        replaced.key = t;
+
+        Object v = deleted.value;
+        deleted.value = replaced.value;
+        replaced.value = v;
+        doRemove(replaced);
     }
 
     // 找到要删除的节点
