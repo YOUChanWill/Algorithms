@@ -157,12 +157,30 @@ public class RedBlackTree {
         doRemove(deleted);
     }
 
+    // 处理双黑
+    private void fixDoubleBlack(Node node){
+
+    }
+
     private void doRemove(Node deleted) {
         Node replaced = findReplaced(deleted);
+        Node parent = deleted.parent;
         // 没有孩子
         if (replaced == null){
-            if (deleted == null){
+            if (deleted == root){
                 root = null;
+            }else {
+                if (isBlack(deleted)){
+
+                }else {
+                    // 匹配红色叶子无需处理
+                }
+                if (deleted.isLeftChild()){
+                    parent.left = null;
+                }else {
+                    parent.right = null;
+                }
+                deleted.parent = null;
             }
             return;
         }
@@ -173,6 +191,19 @@ public class RedBlackTree {
                 root.key = replaced.key;
                 root.value = replaced.value;
                 root.left = root.right = null;
+            }else {
+                if (deleted.isLeftChild()){
+                    parent.left = replaced;
+                }else {
+                    parent.right = replaced;
+                }
+                replaced.parent = parent;
+                deleted.left = deleted.right = deleted.parent = null;
+                if (isBlack(deleted) && isBlack(replaced)){
+
+                }else {
+                    replaced.color = BLACK;
+                }
             }
             return;
         }
