@@ -150,4 +150,36 @@ public class RedBlackTree {
         }
     }
 
+    // 红黑树的删除
+    public void remove(int key){
+
+    }
+
+    // 找到要删除的节点
+    Node find(int key){
+        Node p = root;
+        while (p != null){
+            if (key < p.key){
+                p = p.left;
+            } else if (p.key < key) {
+                p = p.right;
+            }else return p;
+        }
+        return null;
+    }
+
+    // 查找剩余节点
+    Node findReplaced(Node delete){
+        if (delete.left == null && delete.right == null) return null;
+        if (delete.left == null) return delete.right;
+        if (delete.right == null) return delete.left;
+        Node s = delete.right;
+        while (s.left != null){
+            s = s.left;
+        }
+        return s;
+    }
+
+
+
 }
