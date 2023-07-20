@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class BTree {
 
-    private static class Node{
+    static class Node{
         int[] keys; // 关键字
         Node[] children; // 孩子
         int keyNumber;
@@ -53,6 +53,8 @@ public class BTree {
 
 
     }
+
+
 
 
 
