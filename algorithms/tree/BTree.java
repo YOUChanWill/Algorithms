@@ -54,8 +54,51 @@ public class BTree {
 
     }
 
+    Node root;
+    int MIN_KEY_NUMBER;
+    int MAX_KEY_NUMBER;
+
+    int t;
+
+    public BTree(){
+        this(2);
+    }
+
+    public BTree(int t){
+        this.t = t;
+        root = new Node(t);
+        MAX_KEY_NUMBER = 2 * t - 1;
+        MIN_KEY_NUMBER = t - 1;
+    }
+    // 是否存在
+    public boolean contains(int key){
+        return root.get(key) != null;
+    }
+
+    //新增
+    public void put(int key){
+        doPut(root,key);
+    }
+
+    private void doPut(Node node, int key) {
+        int i = 0;
+        while (i < node.keyNumber){
+            if (node.keys[i] == key){
+                return;
+            }
+            if (node.keys[i] > key){
+                break;
+            }
+            i++;
+        }
+        if (node.leaf){
+            node.insertKey(key,i);
+        }else {
+            doPut(node.children[i],key);
+        }
 
 
+    }
 
 
 }
