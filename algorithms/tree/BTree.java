@@ -40,6 +40,17 @@ public class BTree {
             return children[i].get(key);
         }
 
+        void insertKey(int key,int index){
+            System.arraycopy(keys,index,keys,index+1,keyNumber - index);
+            keys[index] = key;
+            keyNumber++;
+        }
+
+        void insertChild(Node child,int index){
+            System.arraycopy(children,index,children,index + 1,keyNumber - index);
+            children[index] = child;
+        }
+
 
     }
 
