@@ -162,10 +162,10 @@ public class BTree {
 
     // 节点的删除
     public void remove(int key){
-        doRemove(root,key);
+        doRemove(null, root,0,key);
     }
 
-    private void doRemove(Node node, int key){
+    private void doRemove(Node parent, Node node,int index, int key){
         int i = 0;
         while (i < node.keyNumber){
             if (node.keys[i] == key){
@@ -182,7 +182,7 @@ public class BTree {
             }
         }else { // 当前节点不是叶子节点
             if (!fond(node,key,i)){
-                doRemove(node.children[i],key);
+                doRemove(node, node.children[i],i,key);
             }else {
                 Node s = node.children[i + 1];
                 while (!s.leaf){
@@ -190,17 +190,20 @@ public class BTree {
                 }
                 int skey = s.keys[0];
                 node.keys[i] = skey;
-                doRemove(node.children[i + 1],skey);
+                doRemove(node, node.children[i + 1],i +1, skey);
             }
         }
         // 删除后key数目小于下限（不平衡）
         if (node.keyNumber < MIN_KEY_NUMBER){
-
+            balance(parent,node,index);
         }
     }
 
     private void balance(Node parent,Node x,int i){
         if (x == root){
+            if (root.keyNumber == 0 && root.children[0] != null){
+                root = root.children[0];
+            }
             return;
         }
         Node left = parent.childLeftSibling(i);
@@ -236,7 +239,5 @@ public class BTree {
     private boolean fond(Node node,int key,int i){
         return i < node.keyNumber && node.keys[i] == key;
     }
-
-
 
 }
