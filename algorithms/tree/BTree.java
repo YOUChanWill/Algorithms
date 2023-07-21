@@ -96,8 +96,33 @@ public class BTree {
         }else {
             doPut(node.children[i],key);
         }
+    }
 
+    // 节点的分裂（split）
+    private void split(Node left, Node parent,int index){
+        // 分裂的是根节点
+        if (parent == null){
+            Node newRoot = new Node(t);
+            newRoot.leaf = false;
+            newRoot.insertChild(left,0);
+            this.root = newRoot;
+            parent = newRoot;
+        }
 
+        Node right = new Node(t);
+        right.leaf = left.leaf;
+        System.arraycopy(left.keys,t,right.keys,0,t - 1);
+        if (!left.leaf){
+            System.arraycopy(left.children,t,right.children,0,t);
+        }
+
+        left.keyNumber = t - 1;
+        right.keyNumber = t - 1;
+        // 中间的key插入到父节点
+        int mid = left.keys[t - 1];
+        parent.insertKey(mid,index);
+        // right节点作为父节点的孩子
+        parent.insertChild(right,index + 1);
     }
 
 
