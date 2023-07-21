@@ -51,6 +51,36 @@ public class BTree {
             children[index] = child;
         }
 
+        // 删除制定index处的key
+        int removeKey(int index){
+            int t = keys[index];
+            System.arraycopy(keys,index + 1,keys,index,--keyNumber - index);
+            return t;
+        }
+
+        int removeLeftmostKey(){return removeKey(0);}
+        int removeRightmostKey(){return removeKey(keyNumber - 1);}
+
+        Node removeChild(int index){}
+
+        Node removeLeftmostChild(){return removeChild(0);}
+        Node removeRightmostChild(){return removeChild(keyNumber);}
+
+        Node removeLeftSibling(int index){return index > 0 ? children[index - 1] : null;}
+        Node removeRightSibling(int index){return index == keyNumber ? null : children[index + 1];}
+
+        // 复制当前所有节点的key和child到target
+        void moveToLeft(Node target){
+            int start = target.keyNumber;
+            if (!leaf){
+                for (int i = 0; i <= keyNumber; i++) {
+                    target.children[start + i] = children[i];
+                }
+            }
+            for (int i = 0; i < keyNumber; i++) {
+                target.keys[target.keyNumber++] = keys[i];
+            }
+        }
 
     }
 
@@ -129,6 +159,55 @@ public class BTree {
         // right节点作为父节点的孩子
         parent.insertChild(right,index + 1);
     }
+
+    // 节点的删除
+    public void remove(int key){
+        doRemove(root,key);
+    }
+
+    private void doRemove(Node node, int key){
+        int i = 0;
+        while (i < node.keyNumber){
+            if (node.keys[i] == key){
+                break;
+            }
+            i++;
+        }
+        // 当前节点为叶子节点
+        if (node.leaf){
+            if (!fond(node,key,i)){
+                return;
+            }else {
+                node.removeKey(i);
+            }
+        }else { // 当前节点不是叶子节点
+            if (!fond(node,key,i)){
+                doRemove(node.children[i],key);
+            }else {
+                Node s = node.children[i + 1];
+                while (!s.leaf){
+                    s = s.children[0];
+                }
+                int skey = s.keys[0];
+                node.keys[i] = skey;
+                doRemove(node.children[i + 1],skey);
+            }
+        }
+        // 删除后key数目小于下限（不平衡）
+        if (node.keyNumber < MIN_KEY_NUMBER){
+
+        }
+    }
+
+    private void balance(Node parent,Node x,int i){
+
+    }
+
+
+    private boolean fond(Node node,int key,int i){
+        return i < node.keyNumber && node.keys[i] == key;
+    }
+
 
 
 }
