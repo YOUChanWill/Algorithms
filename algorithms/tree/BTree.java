@@ -77,10 +77,10 @@ public class BTree {
 
     //新增
     public void put(int key){
-        doPut(root,key);
+        doPut(root,key,null,0);
     }
 
-    private void doPut(Node node, int key) {
+    private void doPut(Node node, int key,Node parent, int index) {
         int i = 0;
         while (i < node.keyNumber){
             if (node.keys[i] == key){
@@ -93,8 +93,13 @@ public class BTree {
         }
         if (node.leaf){
             node.insertKey(key,i);
+            // 检查上限
         }else {
-            doPut(node.children[i],key);
+            doPut(node.children[i],key,node,i);
+        }
+        // 检查上限
+        if (node.keyNumber == MAX_KEY_NUMBER){
+            split(node,parent,index);
         }
     }
 
