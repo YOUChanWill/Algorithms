@@ -66,8 +66,8 @@ public class BTree {
         Node removeLeftmostChild(){return removeChild(0);}
         Node removeRightmostChild(){return removeChild(keyNumber);}
 
-        Node removeLeftSibling(int index){return index > 0 ? children[index - 1] : null;}
-        Node removeRightSibling(int index){return index == keyNumber ? null : children[index + 1];}
+        Node childLeftSibling(int index){return index > 0 ? children[index - 1] : null;}
+        Node childRightSibling(int index){return index == keyNumber ? null : children[index + 1];}
 
         // 复制当前所有节点的key和child到target
         void moveToLeft(Node target){
@@ -200,7 +200,36 @@ public class BTree {
     }
 
     private void balance(Node parent,Node x,int i){
-
+        if (x == root){
+            return;
+        }
+        Node left = parent.childLeftSibling(i);
+        Node right = parent.childRightSibling(i);
+        if (left != null && left.keyNumber > MIN_KEY_NUMBER){
+            x.insertKey(parent.keys[i - 1],0);
+            if (!left.leaf){
+                x.insertChild(left.removeRightmostChild(),0);
+            }
+            parent.keys[i - 1] = left.removeRightmostKey();
+            return;
+        }
+        if (right != null && right.keyNumber > MAX_KEY_NUMBER){
+            x.insertKey(parent.keys[i],x.keyNumber);
+            if (!right.leaf){
+                x.insertChild(right.removeLeftmostChild(),x.keyNumber + 1);
+            }
+            parent.keys[i] = x.removeLeftmostKey();
+            return;
+        }
+        if (left != null){
+            parent.removeChild(i);
+            left.insertKey(parent.removeKey(i - 1),left.keyNumber);
+            x.moveToLeft(left);
+        }else {
+            parent.removeChild(i + 1);
+            x.insertKey(parent.removeKey(i),x.keyNumber);
+            right.moveToLeft(x);
+        }
     }
 
 
