@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 public class BFS {
 
-
     private static void bfs(Vertex v){
         LinkedList<Vertex> queue = new LinkedList<>();
         queue.offer(v);
